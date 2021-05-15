@@ -1,8 +1,8 @@
 package com.sunbird.test
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import org.xutils.common.util.LogUtil
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
