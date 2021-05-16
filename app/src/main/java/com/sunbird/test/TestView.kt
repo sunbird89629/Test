@@ -1,6 +1,7 @@
 package com.sunbird.test
 
 import android.content.Context
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import org.xutils.common.util.LogUtil
@@ -17,5 +18,10 @@ class TestView : View {
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         LogUtil.d("called......")
+    }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        LogUtil.i("called......")
+        return super.onSaveInstanceState()
     }
 }
