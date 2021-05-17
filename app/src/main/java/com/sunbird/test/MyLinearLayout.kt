@@ -211,7 +211,7 @@ class MyLinearLayout : LinearLayoutCompat, NestedScrollingParent3 {
     //parent是否需要消耗当前的速度事件
     override fun onNestedPreFling(target: View, velocityX: Float, velocityY: Float): Boolean {
         LogUtil.i("called......")
-        return true
+        return false
     }
 
     override fun onNestedFling(
