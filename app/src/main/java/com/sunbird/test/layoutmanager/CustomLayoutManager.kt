@@ -1,5 +1,6 @@
 package com.sunbird.test.layoutmanager
 
+import android.graphics.Rect
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import org.xutils.common.util.LogUtil
@@ -10,7 +11,6 @@ import org.xutils.common.util.LogUtil
  * 描述：<必填>
  */
 class CustomLayoutManager : RecyclerView.LayoutManager() {
-
 
     private var mTotalHeight: Int = 0
 
@@ -125,6 +125,18 @@ class CustomLayoutManager : RecyclerView.LayoutManager() {
 
     }
 
+
+    private fun layoutChildren(recycler: RecyclerView.Recycler, visibleCount: Int) {
+        detachAndScrapAttachedViews(recycler)
+        for (i in 0 until visibleCount) {
+            val viewForPositionChild = recycler.getViewForPosition(i)
+            measureChildWithMargins(viewForPositionChild, 0, 0)
+            addView(viewForPositionChild)
+            layoutDecorated(viewForPositionChild)
+        }
+    }
+
+
     /**
      * Query if vertical scrolling is currently supported. The default implementation
      * returns false.
@@ -178,4 +190,48 @@ class CustomLayoutManager : RecyclerView.LayoutManager() {
     private fun getVerticalVisibleHeight(): Int {
         return height - paddingTop - paddingBottom
     }
+
+    /**
+     * 获取可见的区域Rect
+     */
+    private fun getVisibleArea(): Rect {
+        return Rect(
+            paddingLeft,
+            paddingTop + mTheMoveDistance,
+            width + paddingRight,
+            getVerticalVisibleHeight() + mTheMoveDistance
+        )
+    }
+
+    /**
+     * 算出条目均高
+     */
+    private fun initStepHeight(recycler: RecyclerView.Recycler): Int {
+        val adam = recycler.getViewForPosition(0)
+        addView(adam)
+        var result = -1
+        measureChildWithMargins(adam, 0, 0)
+        result = getDecoratedMeasuredHeight(adam)
+        removeAndRecycleAllViews(recycler)
+        return result
+    }
+
+    /**
+     * 初始化可见条目数，addView以及layout
+     */
+    private fun initVisibleCounts(stepHeight: Int): Int {
+        return getVerticalVisibleHeight() / stepHeight
+    }
+
+
+    /**
+     * 记录所有条目位置
+     * 以及totalHeight
+     */
+    private fun initItemRectSparse(stepItemHeight: Int) {
+
+    }
+
+    
+
 }
