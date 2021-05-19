@@ -161,11 +161,11 @@ class CustomLayoutManager : RecyclerView.LayoutManager() {
         LogUtil.d("mRealMoveDistance == ${mTheMoveDistance}")
         if (mTheMoveDistance + dy < 0) {//抵达上边界
             LogUtil.d("抵达上边界")
-            theDy = 0
+            theDy = -mTheMoveDistance
 
         } else if (mTotalHeight > theRvVisibleHeight && mTheMoveDistance + dy > theMoreHeight) {//抵达下边界
             LogUtil.d("抵达下边界")
-            theDy = 0
+            theDy = theMoreHeight - mTheMoveDistance
         } else {
 
         }
