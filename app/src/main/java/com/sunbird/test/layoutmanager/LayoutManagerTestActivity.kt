@@ -23,7 +23,7 @@ class LayoutManagerTestActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         mRecyclerView.apply {
-            layoutManager = CustomLayoutManager()
+            layoutManager = PathLayoutManager()
 //            layoutManager = LinearLayoutManager(
 //                this@LayoutManagerTestActivity,
 //                RecyclerView.VERTICAL,

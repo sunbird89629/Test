@@ -132,7 +132,7 @@ class CustomLayoutManager : RecyclerView.LayoutManager() {
             val viewForPositionChild = recycler.getViewForPosition(i)
             measureChildWithMargins(viewForPositionChild, 0, 0)
             addView(viewForPositionChild)
-            layoutDecorated(viewForPositionChild)
+//            layoutDecorated(viewForPositionChild)
         }
     }
 
@@ -232,6 +232,5 @@ class CustomLayoutManager : RecyclerView.LayoutManager() {
 
     }
 
-    
 
 }

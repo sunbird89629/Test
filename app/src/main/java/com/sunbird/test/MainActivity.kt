@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 //            startActivity(Intent(this@MainActivity, VelocityTrackerTest::class.java))
 //            startActivity(Intent(this@MainActivity, NestedScrollTestActivity::class.java))
             startActivity(Intent(this@MainActivity, LayoutManagerTestActivity::class.java))
+//            startActivity(Intent(this@MainActivity, CoordinatorLayoutTest::class.java))
         }, 100)
     }
 
