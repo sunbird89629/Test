@@ -10,7 +10,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
-        <activity android:name=".viewmodel.TimerActivity"></activity>
+        <activity android:name=".paging.PagingTestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".viewmodel.TimerActivity" />
         <activity android:name=".CoordinatorLayoutTest" />
         <activity android:name=".layoutmanager.LayoutManagerTestActivity" />
         <activity android:name=".nestedscrolltest.NestedScrollTestActivity" />
@@ -24,5 +31,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
