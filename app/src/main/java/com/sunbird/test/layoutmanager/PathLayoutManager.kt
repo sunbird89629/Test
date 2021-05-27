@@ -125,7 +125,7 @@ class PathLayoutManager(
         }
 
         onLayout(recycler, needLayoutItems)
-        recycleChildren(recycler)
+//        recycleChildren(recycler)
     }
 
     private fun getNeedLayoutItems(): List<PosTan> {
@@ -214,9 +214,9 @@ class PathLayoutManager(
                 y + getDecoratedMeasuredHeight(item)
             )
 
-            item.rotation = if (isItemDirectionFixed) {
-
-            }
+//            item.rotation = if (isItemDirectionFixed) {
+//
+//            }
 
         }
     }
@@ -305,10 +305,11 @@ class PathLayoutManager(
     }
 
     fun getScrollOffset(): Float {
-        return when (orientation) {
-            RecyclerView.VERTICAL -> mOffsetY
-            else -> mOffsetX
-        }
+//        return when (orientation) {
+//            RecyclerView.VERTICAL -> mOffsetY
+//            else -> mOffsetX
+//        }
+        return 0f
     }
 
 
