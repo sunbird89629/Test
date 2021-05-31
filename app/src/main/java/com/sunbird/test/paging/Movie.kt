@@ -11,5 +11,7 @@ data class Movie(
     val year: String,
     val images: Images
 ) {
-    
+    class Images(
+        val small: String
+    )
 }
