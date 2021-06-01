@@ -20,12 +20,12 @@ sealed class DownloadStatus {
 }
 
 
-fun download(url: String, fileName: String): Flowable<DownloadStatus> {
-    return Flowable.create<DownloadStatus>({
-        val request = Request.Builder().url(url).get().build()
-        val okHttpClient = OkHttpClient.Builder().build()
-        val response = okHttpClient.newCall(request).execute()
-        if(response.isSuccessful){
-        }
-    })
-}
+//fun download(url: String, fileName: String): Flowable<DownloadStatus> {
+//    return Flowable.create<DownloadStatus>({
+//        val request = Request.Builder().url(url).get().build()
+//        val okHttpClient = OkHttpClient.Builder().build()
+//        val response = okHttpClient.newCall(request).execute()
+//        if(response.isSuccessful){
+//        }
+//    })
+//}
