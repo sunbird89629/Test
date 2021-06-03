@@ -3,6 +3,7 @@ package com.sunbird.test.coroutine
 import kotlinx.coroutines.Dispatchers.Unconfined
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.ContinuationInterceptor
@@ -270,6 +271,13 @@ fun main() {
         }
     }
     Thread.sleep(5000)
+}
+
+
+suspend fun delay(time: Long, unit: TimeUnit = TimeUnit.MILLISECONDS) {
+    if (time <= 0) {
+        return
+    }
 }
 
 

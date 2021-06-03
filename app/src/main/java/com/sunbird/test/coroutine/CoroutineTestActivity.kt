@@ -13,6 +13,10 @@ class CoroutineTestActivity : AppCompatActivity() {
         ActivityCoroutineTestBinding.inflate(layoutInflater)
     }
 
+    private val mainScope by lazy {
+        MainScope()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +44,17 @@ class CoroutineTestActivity : AppCompatActivity() {
         mBinding.tvTest1.text = "data is loading please wait"
         mBinding.tvTest2.text = "data is loading please wait"
         mBinding.tvTest3.text = "data is loading please wait"
+
+        mBinding.btnLaunchMainScope.setOnClickListener {
+            mainScope.launch {
+                mBinding.btnLaunchMainScope.text = "start"
+                for (i in 10 downTo 1) {
+                    delay(1000)
+                    mBinding.btnLaunchMainScope.text = "current is ${i}"
+                }
+                mBinding.btnLaunchMainScope.text = "start main scope"
+            }.asAutoDisposable(it)
+        }
     }
 
     //通过launch在主线程中创建一个携程，Dispatcher.Main表示在主线程中启动。默认是在IO线程总启动，等待子线程执行完成更新UI
@@ -91,5 +106,12 @@ class CoroutineTestActivity : AppCompatActivity() {
         }
 
         mBinding.tvTest3.text = "${task1.await()} + ${task2.await()}"
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        //用完销毁
+        mainScope.cancel()
     }
 }
