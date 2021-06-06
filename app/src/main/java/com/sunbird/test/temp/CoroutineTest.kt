@@ -1,9 +1,10 @@
 package com.sunbird.test.coroutine
 
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Unconfined
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.ContinuationInterceptor
@@ -273,13 +274,93 @@ fun main() {
     Thread.sleep(5000)
 }
 
+suspend fun getBaiduPage() {
 
-suspend fun delay(time: Long, unit: TimeUnit = TimeUnit.MILLISECONDS) {
-    if (time <= 0) {
-        return
-    }
 }
 
+
+//suspend fun delay(time: Long, unit: TimeUnit = TimeUnit.MILLISECONDS) {
+//    if (time <= 0) {
+//        return
+//    }
+//}
+
+
+//class LCoroutine<T : Any>(var source: suspend CoroutineScope.() -> T) {
+//    var TAG = "LCoroutine"
+//    private var mainHandler: Handler = Handler(Looper.getMainLooper())
+//    private var errorConsumer: (Int, String) -> Unit = { statusCode, errorMsg ->
+//        Log.e(TAG, "statusCode=$statusCode,errorMsg=$errorMsg")
+//    }
+//
+//    private var succConsumer: (T) -> Unit = {
+//
+//    }
+//
+//    private var fromDispatcher: CoroutineDispatcher = Dispatchers.IO
+//    private var thenDispatcher: CoroutineDispatcher = Dispatchers.Main
+//
+//    val handler = CoroutineExceptionHandler { _, exception ->
+//        Log.e(TAG, "Caught $exception with suppressed ${exception.suppressed.contentToString()}")
+//        if (exception is HttpExceptin) {
+//
+//        }
+//
+//        mainHandler.post {
+//            errorConsumer(Constants.ResponseCode.COROUTINE_EXCEPTION_CODE, exception.toString())
+//        }
+//    }
+//
+//    fun fromOn(from: CoroutineDispatcher): LCoroutine<T> {
+//        fromDispatcher = from
+//        return this
+//    }
+//
+//    fun thenOn(then: CoroutineDispatcher): LCoroutine<T> {
+//        thenDispatcher = then
+//        return this
+//    }
+//
+//    fun succ(success: (T) -> Unit): LCoroutine<T> {
+//        succConsumer = success
+//        return this
+//    }
+//
+//    fun error(error: (Int, String) -> Unit): LCoroutine<T> {
+//        errorConsumer = error
+//        return this
+//    }
+//
+//
+//    fun execute(): Job {
+//        return GlobalScope.launch(fromDispatcher + handler) {
+//            try {
+//                withTimeout(30000) {
+//                    val result = source()
+//                    withContext(thenDispatcher) {
+//                        if (result == null) {
+//                            errorConsumer(-1, "request timeout")
+//                        } else {
+//                            succConsumer(result)
+//                        }
+//                    }
+//                }
+//            } catch (e: TimeoutCancellationException) {
+//                e.printStackTrace()
+//                Log.e(TAG, "request timeout")
+//                withContext(thenDispatcher) {
+//                    errorConsumer(-2, "request timeout")
+//                }
+//            }
+//        }
+//    }
+//
+//    companion object {
+//        fun <T : Any> from(call: suspend CoroutineScope.() -> T): LCoroutine<T> {
+//            return LCoroutine<T>(call)
+//        }
+//    }
+//}
 
 
 

@@ -1,11 +1,15 @@
 package com.sunbird.test.coroutine
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.sunbird.test.databinding.ActivityCoroutineTestBinding
 import kotlinx.coroutines.*
 import org.xutils.common.util.LogUtil
+import kotlin.coroutines.resume
 
 class CoroutineTestActivity : AppCompatActivity() {
 
@@ -40,7 +44,6 @@ class CoroutineTestActivity : AppCompatActivity() {
         //第三种控制流
         requestDirectTowDataAndUpdateUI()
 
-
         mBinding.tvTest1.text = "data is loading please wait"
         mBinding.tvTest2.text = "data is loading please wait"
         mBinding.tvTest3.text = "data is loading please wait"
@@ -55,6 +58,18 @@ class CoroutineTestActivity : AppCompatActivity() {
                 mBinding.btnLaunchMainScope.text = "start main scope"
             }.asAutoDisposable(it)
         }
+
+        mBinding.btnShowDialog.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                val result = alert("test title", "message test")
+                Toast.makeText(this@CoroutineTestActivity, "result:${result}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+
+
+
     }
 
     //通过launch在主线程中创建一个携程，Dispatcher.Main表示在主线程中启动。默认是在IO线程总启动，等待子线程执行完成更新UI
@@ -114,4 +129,25 @@ class CoroutineTestActivity : AppCompatActivity() {
         //用完销毁
         mainScope.cancel()
     }
+
+    @ExperimentalCoroutinesApi
+    suspend fun Context.alert(title: String, message: String): Boolean =
+        suspendCancellableCoroutine { continuation ->
+            AlertDialog.Builder(this@CoroutineTestActivity)
+                .setNegativeButton("No") { dialog, which ->
+                    dialog.dismiss()
+                    continuation.resume(false)
+//                    continuation.resume(false)
+                }.setPositiveButton("Yes") { dialog, which ->
+                    dialog.dismiss()
+                    continuation.resume(true)
+                }.setMessage(message)
+                .setOnCancelListener {
+                    continuation.resume(false)
+                }.create().also { dialog ->
+                    continuation.invokeOnCancellation {
+                        dialog.dismiss()
+                    }
+                }.show()
+        }
 }
