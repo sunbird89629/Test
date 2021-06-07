@@ -68,8 +68,6 @@ class CoroutineTestActivity : AppCompatActivity() {
         }
 
 
-
-
     }
 
     //通过launch在主线程中创建一个携程，Dispatcher.Main表示在主线程中启动。默认是在IO线程总启动，等待子线程执行完成更新UI
@@ -134,15 +132,15 @@ class CoroutineTestActivity : AppCompatActivity() {
     suspend fun Context.alert(title: String, message: String): Boolean =
         suspendCancellableCoroutine { continuation ->
             AlertDialog.Builder(this@CoroutineTestActivity)
+                .setTitle(title)
+                .setMessage(message)
                 .setNegativeButton("No") { dialog, which ->
                     dialog.dismiss()
                     continuation.resume(false)
-//                    continuation.resume(false)
                 }.setPositiveButton("Yes") { dialog, which ->
                     dialog.dismiss()
                     continuation.resume(true)
-                }.setMessage(message)
-                .setOnCancelListener {
+                }.setOnCancelListener {
                     continuation.resume(false)
                 }.create().also { dialog ->
                     continuation.invokeOnCancellation {
