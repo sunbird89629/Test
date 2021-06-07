@@ -1,11 +1,8 @@
 package com.sunbird.test
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
-import org.junit.Assert.*
-import org.junit.runner.RunWith
-
-import androidx.test.ext.junit.runners.AndroidJUnit4
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -13,7 +10,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 
-@RunWith(AndroidJUnit4::class)
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {

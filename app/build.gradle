@@ -38,6 +38,9 @@ android {
 }
 
 dependencies {
+
+    def lifecycle_version = "2.3.1"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
     implementation "io.reactivex.rxjava3:rxjava:3.0.4"
@@ -47,7 +50,17 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'org.xutils:xutils:3.9.0'
 
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
+
+    //Retrofit2
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    //OKHttp3
+    // define a BOM and its version
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.1"))
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
 
 
     def room_version = "2.3.0"
