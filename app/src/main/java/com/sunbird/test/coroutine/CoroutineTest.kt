@@ -1,15 +1,7 @@
 package com.sunbird.test.coroutine
 
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
-import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.Unconfined
 import kotlin.concurrent.thread
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.ContinuationInterceptor
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import kotlin.coroutines.*
 
 /**
  * 作者：王豪
@@ -36,8 +28,49 @@ import kotlin.coroutines.suspendCoroutine
 //        get() = EmptyCoroutineContext
 //
 //})
+
+
+//fun main() {
+//    val test = suspend {
+//        println("In Coroutine.")
+//        5
+//    }.createCoroutine(object : Continuation<Int> {
+//        /**
+//         * The context of the coroutine that corresponds to this continuation.
+//         */
+//        override val context: CoroutineContext
+//            get() = EmptyCoroutineContext
 //
+//        /**
+//         * Resumes the execution of the corresponding coroutine passing a successful or failed [result] as the
+//         * return value of the last suspension point.
+//         */
+//        override fun resumeWith(result: Result<Int>) {
+//            println("Coroutine End: $result")
+//        }
 //
+//    })
+//    println("test")
+
+
+//}
+
+//class ProducerScope<T> {
+//    suspend fun produce(value: T) {
+//
+//    }
+//}
+//
+//fun callLaunchCoroutine() {
+////    launchCoroutine("") {
+////
+////    }
+//    launchCoroutine(ProducerScope<Int>()) {
+//
+//    }
+//}
+
+
 //fun <R, T> launchCoroutine(receiver: R, block: suspend R.() -> T) {
 //    block.startCoroutine(receiver, object : Continuation<T> {
 //        /**
@@ -159,17 +192,17 @@ import kotlin.coroutines.suspendCoroutine
 //    Thread.sleep(4000)
 //}
 
-suspend fun suspendFunc01(a: Int) {
-    return
-}
-
-suspend fun suspendFunc02(s: String, b: String) = suspendCoroutine<String> { continuation ->
-    thread {
-        println("${s},${b}")
-        Thread.sleep(1000)
-        continuation.resumeWith(Result.success(b))
-    }
-}
+//suspend fun suspendFunc01(a: Int) {
+//    return
+//}
+//
+//suspend fun suspendFunc02(s: String, b: String) = suspendCoroutine<String> { continuation ->
+//    thread {
+//        println("${s},${b}")
+//        Thread.sleep(1000)
+//        continuation.resumeWith(Result.success(b))
+//    }
+//}
 
 //fun main() {
 //    println("main method start")
@@ -200,26 +233,26 @@ suspend fun suspendFunc02(s: String, b: String) = suspendCoroutine<String> { con
 //}
 
 
-class LogInterceptor : ContinuationInterceptor {
-    override val key = ContinuationInterceptor
-
-    override fun <T> interceptContinuation(continuation: Continuation<T>) =
-        LogContinuation(continuation)
-}
-
-class LogContinuation<T>(
-    private val continuation: Continuation<T>
-) : Continuation<T> by continuation {
-    /**
-     * Resumes the execution of the corresponding coroutine passing a successful or failed [result] as the
-     * return value of the last suspension point.
-     */
-    override fun resumeWith(result: Result<T>) {
-        println("before resumeWith: $result")
-        continuation.resumeWith(result)
-        println("after resumeWith.")
-    }
-}
+//class LogInterceptor : ContinuationInterceptor {
+//    override val key = ContinuationInterceptor
+//
+//    override fun <T> interceptContinuation(continuation: Continuation<T>) =
+//        LogContinuation(continuation)
+//}
+//
+//class LogContinuation<T>(
+//    private val continuation: Continuation<T>
+//) : Continuation<T> by continuation {
+//    /**
+//     * Resumes the execution of the corresponding coroutine passing a successful or failed [result] as the
+//     * return value of the last suspension point.
+//     */
+//    override fun resumeWith(result: Result<T>) {
+//        println("before resumeWith: $result")
+//        continuation.resumeWith(result)
+//        println("after resumeWith.")
+//    }
+//}
 
 
 //fun main() {
@@ -246,37 +279,37 @@ class LogContinuation<T>(
 //}
 
 
-var continuation: Continuation<Int>? = null
-
-suspend fun a(): Int {
-    return b()
-}
-
-suspend fun b(): Int {
-    while (true) {
-        val i = suspendCoroutine<Int> { cont -> continuation = cont }
-        if (i == 0) {
-            return 0
-        }
-    }
-}
-
-fun main() {
-    GlobalScope.launch {
-        launch(Unconfined) {
-            val a = a()
-            println("Result is ${a}")
-        }
-        (10 downTo 0).forEach {
-            continuation!!.resume(it)
-        }
-    }
-    Thread.sleep(5000)
-}
-
-suspend fun getBaiduPage() {
-
-}
+//var continuation: Continuation<Int>? = null
+//
+//suspend fun a(): Int {
+//    return b()
+//}
+//
+//suspend fun b(): Int {
+//    while (true) {
+//        val i = suspendCoroutine<Int> { cont -> continuation = cont }
+//        if (i == 0) {
+//            return 0
+//        }
+//    }
+//}
+//
+//fun main() {
+//    GlobalScope.launch {
+//        launch(Unconfined) {
+//            val a = a()
+//            println("Result is ${a}")
+//        }
+//        (10 downTo 0).forEach {
+//            continuation!!.resume(it)
+//        }
+//    }
+//    Thread.sleep(5000)
+//}
+//
+//suspend fun getBaiduPage() {
+//
+//}
 
 
 //suspend fun delay(time: Long, unit: TimeUnit = TimeUnit.MILLISECONDS) {
@@ -363,15 +396,88 @@ suspend fun getBaiduPage() {
 //}
 
 
+//suspend fun main() {
+//    println("before delay")
+//    delay(2000)
+//    println("after delay")
+//}
+//
+//
+//suspend fun test(): Int = suspendCoroutine {
+//    it.resume(100)
+//}
 
 
+suspend fun notSuspend() = suspendCoroutine<Int> { continuation ->
+    Thread {
+        Thread.sleep(3000)
+        continuation.resume(100)
+    }.start()
+}
+
+//class CoroutineName(val name: String) : AbstractCoroutineContextElement(Key) {
+//    companion object Key : CoroutineContext.Key<CoroutineName>
+//}
+
+suspend fun suspendFun01(a: Int) {
+    return
+}
+
+suspend fun suspendFun02(a: String, b: String) = suspendCoroutine<Int> { continuation ->
+    thread {
+        continuation.resumeWith(Result.success(5))
+    }
+}
+
+class LogInterceptor : ContinuationInterceptor {
+    override val key = ContinuationInterceptor
+    override fun <T> interceptContinuation(continuation: Continuation<T>): Continuation<T> =
+        LogContinuation(continuation)
+}
+
+class LogContinuation<T>(private val continuation: Continuation<T>) :
+    Continuation<T> by continuation {
+    override fun resumeWith(result: Result<T>) {
+        println("before resumeWith: $result")
+        continuation.resumeWith(result)
+        println("after resumeWith")
+    }
+}
 
 
+fun main() = suspend {
+    suspendFun02("Hello", "Kotlin")
+    suspendFun02("Hello", "Coroutine")
+}.startCoroutine(object : Continuation<Int> {
+    override val context: CoroutineContext
+        get() = LogInterceptor()
 
+    /**
+     * Resumes the execution of the corresponding coroutine passing a successful or failed [result] as the
+     * return value of the last suspension point.
+     */
+    override fun resumeWith(result: Result<Int>) {
+        println(result)
+    }
 
+})
 
-
-
+//fun main() {
+//    val ref = ::notSuspend
+//
+//    val result = ref.call(object : Continuation<Int> {
+//        override val context: CoroutineContext
+//            get() = EmptyCoroutineContext
+//
+//        /**
+//         * Resumes the execution of the corresponding coroutine passing a successful or failed [result] as the
+//         * return value of the last suspension point.
+//         */
+//        override fun resumeWith(result: Result<Int>) {
+//            println("resumeWith: ${result.getOrNull()}")
+//        }
+//    })
+//}
 
 
 
