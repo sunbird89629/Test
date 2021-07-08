@@ -77,6 +77,7 @@ class GeneratorIterator<T>(
     }
 
     override fun resumeWith(result: Result<Any?>) {
+        println("resumeWith")
         state = State.Done
         result.getOrThrow()
     }
