@@ -19,6 +19,7 @@ class HookActivity : AppCompatActivity() {
 
     setContentView(R.layout.activity_hook)
 
+    
     findViewById<Button>(R.id.btn_launch).setOnClickListener {
       startActivity(Intent(this, SecondHookActivity::class.java))
     }
