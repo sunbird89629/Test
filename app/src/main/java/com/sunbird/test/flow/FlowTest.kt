@@ -1,12 +1,9 @@
 package com.sunbird.test.flow
 
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
-import kotlin.system.measureTimeMillis
+import kotlinx.coroutines.withContext
 
 
 /**
@@ -95,54 +92,133 @@ import kotlin.system.measureTimeMillis
 //    }
 //}.flowOn(Dispatchers.Default)
 
-suspend fun performRequest(request: Int): String {
-    delay(1000)
-    return "response $request"
-}
+//suspend fun performRequest(request: Int): String {
+//    delay(1000)
+//    return "response $request"
+//}
+//
+//fun numbers(): Flow<Int> = flow {
+//    try {
+//        for (i in 1..100) {
+//            println("emit $i")
+//            emit(i)
+//        }
+//    } catch (e: Exception) {
+//        e.printStackTrace()
+//    } finally {
+//        println("Finally in numbers")
+//    }
+//}
+//
+//fun log(msg: String) = println("[${Thread.currentThread().name}] $msg")
+//
+//fun simple(): Flow<Int> = flow {
+//    for (i in 1..3) {
+//        delay(100) // 假装我们异步等待了 100 毫秒
+//        emit(i) // 发射下一个值
+//    }
+//}
 
-fun numbers(): Flow<Int> = flow {
-    try {
-        for (i in 1..100) {
-            println("emit $i")
-            emit(i)
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    } finally {
-        println("Finally in numbers")
+//fun main() = runBlocking {
+////    withTimeoutOrNull(250) {
+////        simple().collect(::println)
+////    }
+////    println("done")
+//
+////    (1..3).asFlow().transform {
+////        emit("Making request $it")
+////        emit(performRequest(it))
+////    }.collect(::println)
+////    numbers().take(2).collect { println(it) }
+//
+////    simple().collect { value ->
+////        log("Collected $value")
+////    }
+//
+//    val time = measureTimeMillis {
+//        simple().conflate().collect { value ->
+//            delay(300)
+//            println(value)
+//        }
+//    }
+//    println("Collected in $time ms")
+//}
+
+
+fun makeFlow() = flow {
+    println("sending first value")
+
+    withContext(Dispatchers.IO) {
+        kotlinx.coroutines.delay(1000)
     }
-}
 
-fun log(msg: String) = println("[${Thread.currentThread().name}] $msg")
+    emit(1)
+    println("first value collected,sending another value")
 
-fun simple(): Flow<Int> = flow {
-    for (i in 1..3) {
-        delay(100) // 假装我们异步等待了 100 毫秒
-        emit(i) // 发射下一个值
+    withContext(Dispatchers.IO) {
+        kotlinx.coroutines.delay(1000)
     }
+
+    emit(2)
+    println("second value collected,sending another value")
+    withContext(Dispatchers.IO) {
+        kotlinx.coroutines.delay(1000)
+    }
+    emit(3)
+    println("done")
 }
+
 
 fun main() = runBlocking {
-//    withTimeoutOrNull(250) {
-//        simple().collect(::println)
+//    makeFlow().collect { value ->
+//        withContext(Dispatchers.IO) {
+//            kotlinx.coroutines.delay(1000)
+//        }
+//        println("got $value")
 //    }
-//    println("done")
+//
+//    println("flow is completed")
 
-//    (1..3).asFlow().transform {
-//        emit("Making request $it")
-//        emit(performRequest(it))
-//    }.collect(::println)
-//    numbers().take(2).collect { println(it) }
+//    val repeatableFlow = makeFlow().take(2)
+//    println("first collection")
+//    repeatableFlow.collect()
+//    println("collecting again")
+//    repeatableFlow.collect()
+//    println("second collection completed")
 
-//    simple().collect { value ->
-//        log("Collected $value")
+
+//    flowOf("1", "2", "3").onStart {
+//        emit("onStart")
+//    }.onCompletion {
+//        emit("onCompletion")
+//    }.onEach {
+//        println("onEach:$it")
+//    }.collect {
+//        println("collect:$it")
 //    }
 
-    val time = measureTimeMillis {
-        simple().conflate().collect { value ->
-            delay(300)
-            println(value)
-        }
+    emptyFlow<String>().onEmpty {
+        emit("onEmpty")
+    }.onStart {
+//        emit("onStart")
+    }.onEach {
+        println("onEach:$it")
+    }.onCompletion {
+//        emit("onCompletion")
+    }.collect {
+        println("collect:$it")
     }
-    println("Collected in $time ms")
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
