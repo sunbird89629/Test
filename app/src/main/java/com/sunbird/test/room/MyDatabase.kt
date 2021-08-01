@@ -12,30 +12,30 @@ import androidx.room.RoomDatabase
  */
 
 @Database(
-    version = 1,
-    entities = [
-        Student::class
-    ]
+  version = 1,
+  entities = [
+    Student::class
+  ]
 )
 abstract class MyDatabase : RoomDatabase() {
-    companion object {
-        private const val DB_NAME = "my_db"
-        private var INSTANCE: MyDatabase? = null
-        fun getInstance(context: Context): MyDatabase {
-            if (INSTANCE == null) {
-                synchronized(this) {
-                    if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(
-                            context.applicationContext,
-                            MyDatabase::class.java,
-                            DB_NAME
-                        ).build()
-                    }
-                }
-            }
-            return INSTANCE!!
+  companion object {
+    private const val DB_NAME = "my_db"
+    private var INSTANCE: MyDatabase? = null
+    fun getInstance(context: Context): MyDatabase {
+      if (INSTANCE == null) {
+        synchronized(this) {
+          if (INSTANCE == null) {
+            INSTANCE = Room.databaseBuilder(
+              context.applicationContext,
+              MyDatabase::class.java,
+              DB_NAME
+            ).build()
+          }
         }
+      }
+      return INSTANCE!!
     }
+  }
 
-    abstract fun getStudentDao(): StudentDao
+  abstract fun getStudentDao(): StudentDao
 }

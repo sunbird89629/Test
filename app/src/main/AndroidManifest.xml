@@ -10,7 +10,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
-        <activity android:name=".pluggable.SecondHookActivity"></activity>
+        <activity
+            android:name=".datastore.DataStoreActivity"
+            android:exported="true" />
+        <activity
+            android:name=".compose.ComposeTestActivity"
+            android:exported="true" />
+        <activity android:name=".pluggable.StubActivity" /> <!-- <activity android:name=".pluggable.SecondHookActivity"></activity> -->
         <activity android:name=".pluggable.HookActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
