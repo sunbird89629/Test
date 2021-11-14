@@ -5,18 +5,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.sunbird.cryptobot.util.OKLog
 import com.sunbird.test.R
 
 var times = 0
@@ -78,9 +76,61 @@ fun ClickCounter(clicks: Int, onClick: () -> Unit) {
 @Preview
 @Composable
 fun DefaultPreview() {
-    NewsStory()
-    ClickCounter(clicks = times) {
-        times++
-        OKLog.i("times:${times}")
+//    NewsStory()
+//    ClickCounter(clicks = times) {
+//        times++
+//        OKLog.i("times:${times}")
+//    }
+
+    Button {
+
+    }
+}
+
+
+@Composable
+fun Button(content: @Composable RowScope.() -> Unit) {
+    Surface() {
+        CompositionLocalProvider() {
+            ProvideTextStyle(MaterialTheme.typography.button) {
+                Row(content = content)
+            }
+        }
+    }
+}
+
+@Composable
+fun TwoTexts(text1: String, text2: String, modifier: Modifier = Modifier) {
+    Row(modifier = modifier.height(IntrinsicSize.Min)) {
+        Text(
+            text = text1,
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 4.dp)
+                .wrapContentWidth(Alignment.Start)
+        )
+        Divider(
+            color = Color.Black,
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(1.dp)
+        )
+        Text(
+            text = text2,
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 4.dp)
+                .wrapContentWidth(Alignment.End)
+        )
+    }
+}
+
+@Preview
+@Composable
+fun TwoTextsPreview() {
+    MaterialTheme {
+        Surface {
+            TwoTexts(text1 = "Hi", text2 = "there")
+        }
     }
 }

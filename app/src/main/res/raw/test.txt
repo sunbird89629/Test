@@ -1,0 +1,7 @@
+对应实现的clone方法，如果整个Buffer的size为null，也就是没有数据，那么就返回一个新建的Buffer对象，如果不为空就是遍历所有的segment并且都创建一个对应的Segment，这样clone出来的对象就是一个全新的毫无关系的对象。
+前面分析segment的时候有讲到是一个双向循环链表，但是segment自身构造的时候却没有形成闭环，其实就是在Buffer中产生的
+
+作者：sheepm
+链接：https://www.jianshu.com/p/f033a64539a1
+来源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
