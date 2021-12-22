@@ -1,7 +1,5 @@
 package me.sunbird.javatest
 
-import okhttp3.OkHttp
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,8 +30,6 @@ val retrofit = Retrofit.Builder()
 fun main() {
     val service = retrofit.create(GitHubService::class.java)
     val call = service.listRepos("sunbird89629")
-
-    OkHttpClient.Builder().
 
     call.enqueue(object : Callback<List<Repo>> {
         /**

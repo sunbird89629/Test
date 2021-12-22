@@ -15,8 +15,12 @@ sealed class Figure {
         }
     }
 
+
     class Circle(var radius: Int) : Figure() {
         override fun area(): Double {
+            synchronized(this) {
+                
+            }
             return Math.PI * radius * radius
         }
     }
