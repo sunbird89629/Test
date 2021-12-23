@@ -86,7 +86,15 @@ public class ResumeTest {
     }
 
 
-    private int getMaxNumberCount(int[] source, int target) {
+    /**
+     * the method will change the source array,if you still use source array, please clone it before
+     * call this method
+     *
+     * @param source the source array to check
+     * @param target target value
+     * @return the max size of numbers that average value not less than target
+     */
+    private int getMaxNumberCount(@NonNull int[] source, int target) {
         float currAmount = 0;
         Arrays.sort(source);
         for (int i = source.length - 1; i >= 0; i--) {
